@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment frame tests</title>
+  <script src="http://localhost:3000/"></script>
+</head>
+<body>
+<div id="app">
+  <div id="card-form"></div>
+  <button id="submit-btn">submit</button>
+</div>
+<script>
+  initStripesa('#card-form')
+  document.getElementById('submit-btn').addEventListener('click', submitCardData)
+</script>
+</body>
+</html>

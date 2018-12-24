@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Controller frame</title>
+</head>
+<body>
+</body>
+<script>
+  if (parent) {
+    var parentUrl = (window.location !== window.parent.location) ? document.referrer : document.location
+    parent.window.postMessage('controller-loaded', parentUrl)
+  }
+
+  window.addEventListener('message', (ev) => {
+    if (ev.data.action === 'submit') {
+      submit(ev.data.frame)
+    }
+  })
+
+  function submit(frameName) {
+    const frame = parent[frameName].document
+
+    const data = {
+      number: frame.getElementById('card-number').value,
+      securityCode: frame.getElementById('card-cvv').value,
+      expiryMonth: frame.getElementById('card-expiry-month').value,
+      expiryYear: frame.getElementById('card-expiry-year').value,
+      name: frame.getElementById('card-name').value
+    }
+
+    console.log('submitting the form.....')
+
+    fetch('http://localhost:3000', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(res => {
+      res.json().then(val => {
+        console.log('SERVER RESPONSE',val)
+      })
+    })
+  }
+</script>
+</html>
