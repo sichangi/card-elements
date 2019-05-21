@@ -2,26 +2,6 @@ var isArray = function (val) {
   return /^http(s)?:\/\//.test(val)
 }
 
-var isFunction = 'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator ? function (lineStringProperty) {
-  return typeof lineStringProperty
-} : function (obj) {
-  return obj && 'function' == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? 'symbol' : typeof obj
-}
-
-function makeArray(array) {
-  if (Array.isArray(array)) {
-    /** @type {number} */
-    var i = 0
-    /** @type {!Array} */
-    var ret = Array(array.length)
-    for (; i < array.length; i++) {
-      ret[i] = array[i]
-    }
-    return ret
-  }
-  return Array.from(array)
-}
-
 var parse = function (a) {
   if (!isArray(a)) {
     return null
@@ -56,34 +36,9 @@ var loadPicker = function (command) {
   }
 }
 
-function update(val, m) {
-  var set = []
-  return Object.keys(val).forEach(function (n) {
-    var value = val[n]
-    var k = m ? m + '[' + n + ']' : n
-    if (value && 'object' === (void 0 === value ? 'undefined' : isFunction(value))) {
-      var v = update(value, k)
-      if ('' !== v) {
-        set = [].concat(makeArray(set), [v])
-      }
-    } else {
-      if (void 0 !== value && null !== value) {
-        set = [].concat(makeArray(set), [k + '=' + encodeURIComponent(String(value))])
-      }
-    }
-  }), set.join('&').replace(/%20/g, '+')
-}
-
 function createIframe(options) {
-  /** @type {string} */
-  var context = window.location.href.toString()
-  var ui = parse(context)
-  var origin = ui ? ui.origin : ''
-  update(Object.assign({}, options, {
-    origin: origin,
-    referrer: context,
-    controllerId: 'controllerId'
-  }))
+  // var context = window.location.href.toString()
+  // var ui = parse(context)
   var node = document.createElement('iframe')
   node.setAttribute('frameborder', '0')
   node.setAttribute('allowTransparency', 'true')
