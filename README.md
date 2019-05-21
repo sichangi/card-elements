@@ -1,4 +1,4 @@
-#### Secure credit card data submission
+## Secure credit card data submission
 an attempt at recreating the way stripe elements card forms work
 
 ### getting started
