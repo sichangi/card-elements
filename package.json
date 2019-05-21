@@ -1,6 +1,7 @@
 {
-  "name": "servejs",
+  "name": "stripesa",
   "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "start": "run-p dev-server dev-client",
     "dev-server": "nodemon ./server",
