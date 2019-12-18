@@ -1,52 +1,31 @@
-var isArray = function (val) {
-  return /^http(s)?:\/\//.test(val)
-}
-
-var parse = function (a) {
-  if (!isArray(a)) {
-    return null
-  }
-  var data = document.createElement('a')
-  data.href = a
-  var protocol = data.protocol
-  var key = data.host
-  var o = /:80$/
-  var i = /:443$/
-  return 'http:' === protocol && o.test(key) ? key = key.replace(o, '') : 'https:' === protocol && i.test(key) && (key = key.replace(i, '')), {
-    host: key,
-    protocol: protocol,
-    origin: protocol + '//' + key
-  }
-}
-
 var some = function (selector) {
-  return `http://localhost:3000/${selector}`
-}
+  return `http://localhost:3000/${selector}`;
+};
 
 var loadPicker = function (command) {
   switch (command) {
     case 'FORM_ELEMENT':
-      return some('frame')
+      return some('frame');
     case 'CONTROLLER':
-      return some('controller')
+      return some('controller');
     case 'PAYMENT_REQUEST_ELEMENT':
-      return some('elements-inner-payment-request.html')
+      return some('elements-inner-payment-request.html');
     case 'PAYMENT_REQUEST':
-      return some('payment-request-inner.html')
+      return some('payment-request-inner.html');
   }
-}
+};
 
 function createIframe(options) {
   // var context = window.location.href.toString()
   // var ui = parse(context)
-  var node = document.createElement('iframe')
-  node.setAttribute('frameborder', '0')
-  node.setAttribute('allowTransparency', 'true')
-  node.setAttribute('scrolling', 'no')
-  node.setAttribute('name', options.id || '_iframe1')
-  node.setAttribute('allowpaymentrequest', 'true')
-  node.src = loadPicker(options.type)
-  return node
+  var node = document.createElement('iframe');
+  node.setAttribute('frameborder', '0');
+  node.setAttribute('allowTransparency', 'true');
+  node.setAttribute('scrolling', 'no');
+  node.setAttribute('name', options.id || '_iframe1');
+  node.setAttribute('allowpaymentrequest', 'true');
+  node.src = loadPicker(options.type);
+  return node;
 }
 
 function initStripesa(selector) {
@@ -54,15 +33,15 @@ function initStripesa(selector) {
     document.body.appendChild(createIframe({
       type: 'CONTROLLER',
       id: '_frameController'
-    }))
+    }));
     document.querySelector(selector).appendChild(createIframe({
       type: 'FORM_ELEMENT',
       id: '_frameForm'
-    }))
-  })
+    }));
+  });
 }
 
 function submitCardData() {
-  window.frames._frameController.postMessage({action: 'submit', frame: '_frameForm'}, 'http://localhost:3000')
+  window.frames._frameController.postMessage({action: 'submit', frame: '_frameForm'}, 'http://localhost:3000');
 }
 

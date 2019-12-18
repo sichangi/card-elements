@@ -21,4 +21,4 @@ yarn start
 - click the submit button
 - expect the data from the forms iframe to be submitted to the server
 which responds accordingly if successful
-- check your console for the forms contents
+- check your servers console for the forms contents
